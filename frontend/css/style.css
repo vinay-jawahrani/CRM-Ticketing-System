@@ -1,4 +1,3 @@
-/* Reset and Base */
 * {
     margin: 0;
     padding: 0;
@@ -33,6 +32,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .logo {
@@ -51,6 +51,55 @@ body {
     font-weight: 600;
 }
 
+/* User Bar */
+.user-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar i {
+    font-size: 32px;
+    color: #4CAF50;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.role-badge {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.role-agent {
+    background: #2196F3;
+    color: white;
+}
+
+.role-admin {
+    background: #FF9800;
+    color: white;
+}
+
 /* Buttons */
 .btn-primary {
     background: #4CAF50;
@@ -58,13 +107,14 @@ body {
     border: none;
     padding: 10px 24px;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .btn-primary:hover {
@@ -73,15 +123,24 @@ body {
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .btn-secondary {
     background: #e0e0e0;
     color: #1a1a2e;
     border: none;
     padding: 10px 24px;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     transition: all 0.3s ease;
 }
 
@@ -89,14 +148,95 @@ body {
     background: #d0d0d0;
 }
 
-.btn-status {
-    padding: 6px 16px;
+.btn-danger {
+    background: #f44336;
+    color: white;
     border: none;
-    border-radius: 20px;
-    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: #d32f2f;
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+}
+
+.btn-full {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+/* Auth Pages */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.auth-logo i {
+    font-size: 48px;
+    color: #4CAF50;
+}
+
+.auth-card h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.auth-subtitle {
+    color: #666;
+    margin-bottom: 28px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.auth-link a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
 }
 
 /* Search and Filter */
@@ -128,6 +268,7 @@ body {
     border-radius: 8px;
     font-size: 15px;
     transition: all 0.3s ease;
+    background: white;
 }
 
 .search-input:focus {
@@ -274,7 +415,7 @@ body {
 }
 
 .status-Open { background: #e3f2fd; color: #1976d2; }
-.status-In Progress { background: #fff3e0; color: #f57c00; }
+.status-In-Progress { background: #fff3e0; color: #f57c00; }
 .status-Closed { background: #e8f5e9; color: #388e3c; }
 
 .ticket-date {
@@ -332,6 +473,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    border-radius: 16px 16px 0 0;
 }
 
 .modal-header h2 {
@@ -380,6 +526,7 @@ body {
     border-radius: 8px;
     font-size: 15px;
     transition: all 0.3s ease;
+    font-family: inherit;
 }
 
 .form-group input:focus,
@@ -433,6 +580,16 @@ body {
 
 .detail-value {
     flex: 1;
+    word-break: break-word;
+}
+
+.detail-value a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.detail-value a:hover {
+    text-decoration: underline;
 }
 
 .detail-notes {
@@ -448,6 +605,10 @@ body {
     border-radius: 8px;
     margin-bottom: 8px;
     border-left: 3px solid #4CAF50;
+}
+
+.detail-note:last-child {
+    margin-bottom: 0;
 }
 
 .detail-note-time {
@@ -472,6 +633,12 @@ body {
     font-size: 14px;
     flex: 1;
     min-width: 150px;
+    cursor: pointer;
+}
+
+.detail-actions select:focus {
+    outline: none;
+    border-color: #4CAF50;
 }
 
 .add-note-area {
@@ -489,6 +656,14 @@ body {
     border-radius: 8px;
     resize: vertical;
     min-height: 80px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.add-note-area textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
 /* Empty State */
@@ -503,6 +678,11 @@ body {
     display: block;
     margin-bottom: 16px;
     color: #ddd;
+}
+
+.empty-state h3 {
+    color: #1a1a2e;
+    margin-bottom: 8px;
 }
 
 /* Toast Notification */
@@ -520,6 +700,7 @@ body {
     gap: 12px;
     z-index: 2000;
     animation: slideUp 0.3s ease;
+    max-width: 400px;
 }
 
 @keyframes slideUp {
@@ -542,41 +723,70 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .header-content {
-        flex-direction: column;
+        flex-wrap: wrap;
         gap: 12px;
     }
-    
+
+    .user-bar {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        margin-left: 0;
+    }
+
+    .user-details {
+        align-items: flex-start;
+    }
+
     .ticket-card {
         grid-template-columns: 1fr;
         gap: 8px;
         padding: 16px;
     }
-    
+
     .ticket-date {
         text-align: left;
         font-size: 12px;
     }
-    
+
     .search-filter-bar {
         flex-direction: column;
     }
-    
+
     .stats-bar {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .modal-content {
         width: 95%;
         margin: 10px;
     }
-    
+
     .detail-row {
         flex-direction: column;
         gap: 4px;
     }
-    
+
     .detail-label {
         width: auto;
+    }
+
+    .detail-actions {
+        flex-direction: column;
+    }
+
+    .detail-actions select,
+    .detail-actions button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .add-note-area {
+        flex-direction: column;
+    }
+
+    .auth-card {
+        padding: 28px;
     }
 }
 
@@ -586,8 +796,12 @@ body {
         gap: 8px;
         padding: 12px;
     }
-    
+
     .stat-value {
+        font-size: 20px;
+    }
+
+    .logo h1 {
         font-size: 20px;
     }
 }

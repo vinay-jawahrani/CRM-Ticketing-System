@@ -1,24 +1,49 @@
 const API_BASE = window.APP_CONFIG?.API_BASE || 'http://localhost:8000/api';
-const API_KEY = window.APP_CONFIG?.API_KEY || '';
+
+if (!requireAuth()) {
+    throw new Error('Not authenticated');
+}
+
+const currentUser = getCurrentUser();
 
 let tickets = [];
 let currentFilter = '';
 let currentSearch = '';
 
 document.addEventListener('DOMContentLoaded', () => {
+    renderUserBar();
     loadTickets();
     setupEventListeners();
 });
 
+function renderUserBar() {
+    const bar = document.getElementById('userBar');
+    if (!bar || !currentUser) return;
+
+    const roleBadgeClass = currentUser.role === 'admin' ? 'role-admin' : 'role-agent';
+
+    bar.innerHTML = `
+        <div class="user-info">
+            <div class="user-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user-details">
+                <span class="user-name">${escapeHtml(currentUser.full_name)}</span>
+                <span class="role-badge ${roleBadgeClass}">${escapeHtml(currentUser.role)}</span>
+            </div>
+        </div>
+        <button class="btn-secondary btn-sm" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    `;
+}
+
 async function apiRequest(endpoint, options = {}) {
     const headers = {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`,
         ...options.headers,
     };
-
-    if (API_KEY) {
-        headers['Authorization'] = `Bearer ${API_KEY}`;
-    }
 
     const response = await fetch(`${API_BASE}${endpoint}`, {
         ...options,
@@ -26,7 +51,8 @@ async function apiRequest(endpoint, options = {}) {
     });
 
     if (response.status === 401) {
-        throw new Error('Unauthorized. Please check your API key.');
+        logout();
+        throw new Error('Session expired. Please log in again.');
     }
 
     if (!response.ok) {
@@ -190,6 +216,8 @@ function renderDetail(ticket) {
     const content = document.getElementById('detailContent');
     document.getElementById('detailTitle').textContent = `Ticket ${ticket.ticket_id}`;
 
+    const isAdmin = currentUser && currentUser.role === 'admin';
+
     content.innerHTML = `
         <div class="detail-section">
             <h3>Customer Information</h3>
@@ -259,6 +287,11 @@ function renderDetail(ticket) {
             <button class="btn-primary" onclick="updateTicket('${ticket.ticket_id}')">
                 <i class="fas fa-save"></i> Update Status
             </button>
+            ${isAdmin ? `
+                <button class="btn-danger" onclick="deleteTicket('${ticket.ticket_id}')">
+                    <i class="fas fa-trash"></i> Delete Ticket
+                </button>
+            ` : ''}
         </div>
 
         <div class="detail-section" style="margin-top: 24px;">
@@ -310,6 +343,20 @@ async function addNote(ticketId) {
         loadTickets();
     } catch (error) {
         console.error('Error adding note:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+async function deleteTicket(ticketId) {
+    if (!confirm(`Delete ticket ${ticketId} permanently? This cannot be undone.`)) return;
+
+    try {
+        await apiRequest(`/tickets/${ticketId}`, { method: 'DELETE' });
+        showToast('Ticket deleted successfully', 'success');
+        closeModal('detailModal');
+        loadTickets();
+    } catch (error) {
+        console.error('Error deleting ticket:', error);
         showToast(error.message, 'error');
     }
 }
