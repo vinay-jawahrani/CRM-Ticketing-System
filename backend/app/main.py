@@ -7,7 +7,9 @@ from .database import engine, get_db
 from fastapi import FastAPI, Depends
 from app.dependencies import verify_api_key
 from app.config import settings
-
+from contextlib import asynccontextmanager
+from app import models
+from app.database import engine
 app = FastAPI(
     title="Customer Support CRM API",
     version="1.0.0",
@@ -17,7 +19,12 @@ app = FastAPI(
 
 app = FastAPI(dependencies=[Depends(verify_api_key)])
 
-models.Base.metadata.create_all(bind=engine)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup logic (before yield)
+    async with engine.begin() as conn:
+        await conn.run_sync(models.Base.metadata.create_all)
+    yield
 
 app = FastAPI(title="Customer Support CRM API", version="1.0.0")
 
