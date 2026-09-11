@@ -5,7 +5,6 @@ if (!requireAuth()) {
 }
 
 const currentUser = getCurrentUser();
-
 let tickets = [];
 let currentFilter = '';
 let currentSearch = '';
