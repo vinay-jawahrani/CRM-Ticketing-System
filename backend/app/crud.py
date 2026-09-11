@@ -4,7 +4,7 @@ from datetime import datetime
 import random
 import string
 from app import models, schemas
-
+from sqlalchemy.orm import selectinload
 
 def generate_ticket_id():
     prefix = "TKT"
@@ -51,7 +51,11 @@ async def get_tickets(db: AsyncSession, status: str = None, search: str = None):
 
 
 async def get_ticket(db: AsyncSession, ticket_id: str):
-    query = select(models.Ticket).filter(models.Ticket.ticket_id == ticket_id)
+    query = (
+        select(models.Ticket)
+        .options(selectinload(models.Ticket.notes))
+        .filter(models.Ticket.ticket_id == ticket_id)
+    )
     result = await db.execute(query)
     return result.scalar_one_or_none()
 
