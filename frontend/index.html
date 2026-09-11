@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support CRM - Ticket Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-headset"></i>
+                        <h1>Support CRM</h1>
+                    </div>
+                    <button id="newTicketBtn" class="btn-primary">
+                        <i class="fas fa-plus"></i> New Ticket
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Search and Filter Bar -->
+                <div class="search-filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Search tickets by name, ID, email, or description..."
+                            class="search-input"
+                        >
+                        <button id="clearSearch" class="clear-search" style="display:none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="filter-wrapper">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Statuses</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-bar" id="statsBar">
+                    <div class="stat-item">
+                        <span class="stat-label">Total</span>
+                        <span class="stat-value" id="totalCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Open</span>
+                        <span class="stat-value status-open" id="openCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">In Progress</span>
+                        <span class="stat-value status-in-progress" id="inProgressCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Closed</span>
+                        <span class="stat-value status-closed" id="closedCount">0</span>
+                    </div>
+                </div>
+
+                <!-- Tickets List -->
+                <div id="ticketsContainer" class="tickets-container">
+                    <div id="loadingState" class="loading-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading tickets...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- New Ticket Modal -->
+        <div id="newTicketModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create New Ticket</h2>
+                    <button class="modal-close" onclick="closeModal('newTicketModal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="ticketForm" class="ticket-form">
+                    <div class="form-group">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email Address *</label>
+                        <input type="email" id="customerEmail" required placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Issue Title *</label>
+                        <input type="text" id="subject" required placeholder="Brief title of the issue">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" required rows="4" placeholder="Detailed description of the issue..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal('newTicketModal')">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Detail Modal -->
+        <div id="detailModal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h2 id="detailTitle">Ticket Details</h2>
+                    <button class="modal-close" onclick="closeModal('detailModal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="detailContent" class="detail-content">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
