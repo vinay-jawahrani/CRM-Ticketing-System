@@ -23,7 +23,9 @@ function logout() {
 function requireAuth() {
     if (!getToken()) {
         window.location.href = 'login.html';
+        return false;
     }
+    return true;
 }
 
 function setupLoginForm() {
