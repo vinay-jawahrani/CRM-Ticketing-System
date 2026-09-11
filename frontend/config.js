@@ -1,4 +1,4 @@
 window.APP_CONFIG = {
     API_BASE: 'https://crm-ticketing-system-um65.onrender.com/',
-    API_KEY: 'justchillingandcoding'
+    API_KEY: ''
 };
